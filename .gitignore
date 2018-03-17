@@ -29,3 +29,15 @@
 /SpaceForPupils/Debug/SpaceForPupils.exe
 /SpaceForPupils/SpaceForPupils/stdafx.cpp
 /SpaceForPupils/SpaceForPupils/Debug/SpaceForPupils.Build.CppClean.log
+*.pdb
+*.tlog
+*.obj
+*.pch
+*.idb
+*.log
+/Rabbit/Rabbit/stdafx.h
+/Rabbit/Rabbit/stdafx.cpp
+/Rabbit/Rabbit/Rabbit.vcxproj.filters
+/Rabbit/Rabbit/targetver.h
+*.exe
+*.ilk
