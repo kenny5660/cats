@@ -41,3 +41,5 @@
 /Rabbit/Rabbit/targetver.h
 *.exe
 *.ilk
+*.suo
+*.filters
