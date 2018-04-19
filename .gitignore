@@ -43,3 +43,7 @@
 *.ilk
 *.suo
 *.filters
+*.enc
+*.iobj
+*.ipdb
+/heshTable/Debug/output.txt
