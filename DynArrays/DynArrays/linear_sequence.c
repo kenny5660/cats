@@ -10,8 +10,8 @@ typedef struct {
 
 typedef struct {
 	LSQ_HandleT parent_handler;
-	//LSQ_IntegerIndexT offset;
-	LSQ_BaseTypeT *data;
+	LSQ_IntegerIndexT offset;
+	//LSQ_BaseTypeT *data;
 }LSQ_Interator_Header;
 
 
@@ -59,7 +59,7 @@ void LSQ_DestroySequence(LSQ_HandleT handle) {\
 /* Функция, возвращающая текущее количество элементов в контейнере */
 LSQ_IntegerIndexT LSQ_GetSize(LSQ_HandleT handle) {
 	if (handle == LSQ_HandleInvalid) {
-		return;
+		return 0;
 	}
 	return ((LSQ_Sequence_Header*)handle)->cur_size;
 }
@@ -67,31 +67,34 @@ LSQ_IntegerIndexT LSQ_GetSize(LSQ_HandleT handle) {
 /* Функция, определяющая, может ли данный итератор быть разыменован */
 int LSQ_IsIteratorDereferencable(LSQ_IteratorT iterator) {
 	if (iterator == LSQ_HandleInvalid) {
-		return;
+		return 0;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
-	int ptrs_dif = interator_header->data - sequence_header->data;
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	int ptrs_dif = ptrIterator - sequence_header->data;
 	return ptrs_dif >= 0 && ptrs_dif < sequence_header->cur_size;
 }
 /* Функция, определяющая, указывает ли данный итератор на элемент, следующий за последним в контейнере */
 int LSQ_IsIteratorPastRear(LSQ_IteratorT iterator) {
 	if (iterator == LSQ_HandleInvalid) {
-		return;
+		return 0;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
-	int ptrs_dif = interator_header->data - sequence_header->data;
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	int ptrs_dif = ptrIterator - sequence_header->data;
 	return ptrs_dif >= sequence_header->cur_size;
 }
 /* Функция, определяющая, указывает ли данный итератор на элемент, предшествующий первому в контейнере */
 int LSQ_IsIteratorBeforeFirst(LSQ_IteratorT iterator) {
 	if (iterator == LSQ_HandleInvalid) {
-		return;
+		return 0;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
-	int ptrs_dif = interator_header->data - sequence_header->data;
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	int ptrs_dif = ptrIterator - sequence_header->data;
 	return ptrs_dif < 0;
 }
 
@@ -100,9 +103,12 @@ int LSQ_IsIteratorBeforeFirst(LSQ_IteratorT iterator) {
 /* Функция разыменовывающая итератор. Возвращает указатель на элемент, на который ссылается данный итератор */
 LSQ_BaseTypeT* LSQ_DereferenceIterator(LSQ_IteratorT iterator) {
 	if (iterator == LSQ_HandleInvalid) {
-		return;
+		return LSQ_HandleInvalid;
 	}
-	return ((LSQ_Interator_Header*)iterator)->data;
+	LSQ_Interator_Header *interator_header = iterator;
+	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	return ptrIterator;
 }
 
 /* Следующие три функции создают итератор в памяти и возвращают его дескриптор */
@@ -117,7 +123,7 @@ LSQ_IteratorT LSQ_GetElementByIndex(LSQ_HandleT handle, LSQ_IntegerIndexT index)
 
 	LSQ_Interator_Header *interator_header = malloc(sizeof(LSQ_Interator_Header));
 	interator_header->parent_handler = handle;
-	interator_header->data = ((LSQ_Sequence_Header*)handle)->data+index;
+	 interator_header->offset = index;
 	return interator_header;
 }
 /* Функция, возвращающая итератор, ссылающийся на первый элемент контейнера */
@@ -130,7 +136,7 @@ LSQ_IteratorT LSQ_GetFrontElement(LSQ_HandleT handle) {
 	}
 	LSQ_Interator_Header *interator_header = malloc(sizeof(LSQ_Interator_Header));
 	interator_header->parent_handler = handle;
-	interator_header->data = &((LSQ_Sequence_Header*)handle)->data[0];
+	interator_header->offset = 0;
 	return interator_header;
 };
 /* Функция, возвращающая итератор, ссылающийся на последний элемент контейнера */
@@ -143,8 +149,7 @@ LSQ_IteratorT LSQ_GetPastRearElement(LSQ_HandleT handle) {
 	}
 	LSQ_Interator_Header *interator_header = malloc(sizeof(LSQ_Interator_Header));
 	interator_header->parent_handler = handle;
-	//interator_header->data = &((LSQ_Sequence_Header*)handle)->data[((LSQ_Sequence_Header*)handle)->cur_size-1];
-	interator_header->data = &((LSQ_Sequence_Header*)handle)->data[((LSQ_Sequence_Header*)handle)->cur_size];
+	interator_header->offset = ((LSQ_Sequence_Header*)handle)->cur_size;
 	return interator_header;
 }
 
@@ -161,7 +166,7 @@ void LSQ_AdvanceOneElement(LSQ_IteratorT iterator) {
 		return;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
-	interator_header->data ++;
+	interator_header->offset ++;
 }
 /* Функция, перемещающая итератор на один элемент назад */
 void LSQ_RewindOneElement(LSQ_IteratorT iterator) {
@@ -169,7 +174,7 @@ void LSQ_RewindOneElement(LSQ_IteratorT iterator) {
 		return;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
-	interator_header->data--;
+	interator_header->offset --;
 }
 /* Функция, перемещающая итератор на заданное смещение со знаком */
 void LSQ_ShiftPosition(LSQ_IteratorT iterator, LSQ_IntegerIndexT shift) {
@@ -177,7 +182,7 @@ void LSQ_ShiftPosition(LSQ_IteratorT iterator, LSQ_IntegerIndexT shift) {
 		return;
 	}
 	LSQ_Interator_Header *interator_header = iterator;
-	interator_header->data += shift;
+	interator_header->offset += shift;
 }
 /* Функция, устанавливающая итератор на элемент с указанным номером */
 void LSQ_SetPosition(LSQ_IteratorT iterator, LSQ_IntegerIndexT pos) {
@@ -186,7 +191,7 @@ void LSQ_SetPosition(LSQ_IteratorT iterator, LSQ_IntegerIndexT pos) {
 	}
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
-	interator_header->data = sequence_header->data+pos;
+	interator_header->offset = pos;
 }
 
 /* Функция, добавляющая элемент в начало контейнера */
@@ -216,9 +221,10 @@ void LSQ_InsertElementBeforeGiven(LSQ_IteratorT iterator, LSQ_BaseTypeT newEleme
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
 	sequence_header = LSQ_Resize(sequence_header, sequence_header->cur_size + 1);
-	int shift_block_size = (sequence_header->data   - interator_header->data) + sequence_header->cur_size;
-	memmove(interator_header->data + 1,interator_header->data, (shift_block_size-1) * sizeof(LSQ_BaseTypeT));
-	*(interator_header->data) = newElement;
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	int shift_block_size = (sequence_header->data   - ptrIterator) + sequence_header->cur_size;
+	memmove(ptrIterator + 1, ptrIterator, (shift_block_size-1) * sizeof(LSQ_BaseTypeT));
+	*(ptrIterator) = newElement;
 }
 
 /* Функция, удаляющая первый элемент контейнера */
@@ -253,8 +259,8 @@ void LSQ_DeleteGivenElement(LSQ_IteratorT iterator) {
 	}
 	LSQ_Interator_Header *interator_header = iterator;
 	LSQ_Sequence_Header *sequence_header = interator_header->parent_handler;
-
-	int shift_block_size = sequence_header->data + (sequence_header->cur_size-1)  - interator_header->data;
-	memmove(interator_header->data, interator_header->data + 1, shift_block_size * sizeof(LSQ_BaseTypeT));
+	LSQ_BaseTypeT* ptrIterator = sequence_header->data + interator_header->offset;
+	int shift_block_size = sequence_header->data + (sequence_header->cur_size-1)  - ptrIterator;
+	memmove(ptrIterator, ptrIterator + 1, shift_block_size * sizeof(LSQ_BaseTypeT));
 	sequence_header = LSQ_Resize(sequence_header, sequence_header->cur_size - 1);
 }
