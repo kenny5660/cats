@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{259E9D83-D568-4EE3-A2D7-AD9C9A8CE950}</ProjectGuid>
+    <ProjectGuid>{1CBE6B8A-54EC-4A86-BA22-1DD838BB11F6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>KMP</RootNamespace>
+    <RootNamespace>palindrom</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,7 +151,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KMP.cpp" />
+    <ClCompile Include="palindrom.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
