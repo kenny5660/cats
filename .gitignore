@@ -47,3 +47,8 @@
 *.iobj
 *.ipdb
 /heshTable/Debug/output.txt
+*.db-shm
+*.db
+*.db-wal
+*.exp
+*.lib
