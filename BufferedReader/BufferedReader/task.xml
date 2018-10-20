@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATS version="1.11">
+<Problem title="BufferedReader" lang="ru" tlimit="1" mlimit="4000M"
+  author="" inputFile="*STDIN" outputFile="*STDOUT"
+  saveInputPrefix="50B" saveOutputPrefix="50B" saveAnswerPrefix="50B">
+
+
+<ProblemStatement>
+  <p>
+    Требуется реализовать класс <code>BufferedReader</code> со следующим интерфейсом
+    <pre>
+        <code>
+class BufferedReader {
+public:
+    explicit BufferedReader(PackageStream* stream);
+    int32_t Read(char* buf, int32_t bytes);
+};
+        </code>
+    </pre>
+  </p><p>
+      В конструктор передается объект класса <code>PackageStream</code>, который умеет выдавать в буфер пакет (часть строки) фиксированной заранее длины. 
+      Данный объект требуется использовать для реализации функции <code>Read</code>, которая может считать в буфер часть строки произвольной длины. 
+      Функция возвращает, сколько байт было реально считано (это число может быть меньше, чем заданная длина, если строка закончилась раньше).
+      Интерфейс класса <code>PackageStream</code>  приведен ниже
+      <pre>
+          <code>
+class PackageStream {
+public:
+    PackageStream(std::string data, int32_t package_len);
+
+    int32_t PackageLen();
+    int32_t ReadPackage(char* buf);
+};
+          </code>
+      </pre>
+  </p><p>
+      Функция <code>PackageLen</code> возвращает длину пакета, которую считывает функция <code>ReadPackage</code>.
+  </p><p>
+      Функция <code>ReadPackage</code> возвращает реальное считанное в буфер количество байт.
+  </p>
+</ProblemStatement>
+<!--
+<InputFormat>
+  <p>
+  </p>
+</InputFormat>
+-->
+<OutputFormat>
+  <p>
+     Файл с решением должен содержать только реализацию описанного
+     класса, без функции $main$.
+  </p>
+</OutputFormat>
+<Linter name="cpplint" stage="before" src="cpplint.py"/>
+
+<Import type="checker" guid="std.nums"/>
+
+<Module type="solution" src="main.cpp" main="buffered_reader.h" de_code="107"></Module>
+
+<Test rank="1-4"><In src="%0n.in"/><Out src="%0n.out"/></Test>
+
+</Problem>
+</CATS>

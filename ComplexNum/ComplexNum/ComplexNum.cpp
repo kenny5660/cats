@@ -1,4 +1,5 @@
 #include "pch.h"
+#define _USE_MATH_DEFINES
 #include "ComplexNum.h"
 
 
@@ -57,11 +58,11 @@ ComplexNum ComplexNum::operator/(const ComplexNum& rv) {
 	return temp;
 }
 
-ComplexNum ComplexNum::operator==(const ComplexNum& rv) {
+bool ComplexNum::operator==(const ComplexNum& rv) {
 	return re == rv.re && im == rv.im;
 }
 
-ComplexNum& ComplexNum::operator=(const ComplexNum& rv) {
+ComplexNum& ComplexNum::operator=(ComplexNum& rv) {
 	re = rv.re;
 	im = rv.re;
 	return (*this);

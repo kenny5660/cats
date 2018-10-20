@@ -13,12 +13,14 @@ public:
 	double getIm();
 	void setIm(double _im);
 
+//	ComplexNum operator+();
 	ComplexNum operator+(const ComplexNum& rv);
+//	ComplexNum operator+(const int);
 	ComplexNum operator-(const ComplexNum& rv);
 	ComplexNum operator*(const ComplexNum& rv);
 	ComplexNum operator/(const ComplexNum& rv);
-	ComplexNum& operator=(const ComplexNum& rv);
-	ComplexNum operator==(const ComplexNum& rv);
+	ComplexNum& operator=(ComplexNum& rv);
+	bool operator==(const ComplexNum& rv);
 	// к личным (private) данным
 	friend std::ostream& operator<< (std::ostream &,  ComplexNum &);
 	friend std::istream& operator>> (std::istream &, ComplexNum &);
