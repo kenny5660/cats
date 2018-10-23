@@ -28,8 +28,8 @@ class ComplexNum {
   friend std::istream& operator>>(std::istream&, ComplexNum&);
 
  private:
-  double re;
-  double im;
+  double re_;
+  double im_;
 };
 
 class ComplexNumPolar {
@@ -64,6 +64,6 @@ class ComplexNumPolar {
   friend std::istream& operator>>(std::istream&, ComplexNumPolar&);
 
  private:
-  double r;
-  double phi;
+  double r_;
+  double phi_;
 };

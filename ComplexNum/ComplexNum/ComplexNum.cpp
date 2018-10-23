@@ -6,59 +6,59 @@
 
 ComplexNum::ComplexNum() {}
 
-ComplexNum::ComplexNum(double _re) : re(_re), im(0) {}
+ComplexNum::ComplexNum(double _re) : re_(_re), im_(0) {}
 
-ComplexNum::ComplexNum(double _re, double _im) : re(_re), im(_im) {}
+ComplexNum::ComplexNum(double _re, double _im) : re_(_re), im_(_im) {}
 
-ComplexNum::ComplexNum(const ComplexNum& rv) : re(rv.re), im(rv.im) {  // copy
+ComplexNum::ComplexNum(const ComplexNum& rv) : re_(rv.re_), im_(rv.im_) {  // copy
 }
 
-double ComplexNum::getRe() const { return re; }
+double ComplexNum::getRe() const { return re_; }
 
-void ComplexNum::setRe(double _re) { re = _re; }
+void ComplexNum::setRe(double _re) { re_ = _re; }
 
-double ComplexNum::getIm() const { return im; }
+double ComplexNum::getIm() const { return im_; }
 
-void ComplexNum::setIm(double _im) { im = _im; }
+void ComplexNum::setIm(double _im) { im_ = _im; }
 
 ComplexNum ComplexNum::operator+(const ComplexNum& rv) const {
-  return ComplexNum(re + rv.re, im + rv.im);
+  return ComplexNum(re_ + rv.re_, im_ + rv.im_);
 }
 
 ComplexNum operator+(const double rv, const ComplexNum& lv) {
-  return ComplexNum(lv.re + rv, lv.im);
+  return ComplexNum(lv.re_ + rv, lv.im_);
 }
 
 ComplexNum ComplexNum::operator-(const ComplexNum& rv) const {
-  return ComplexNum(re - rv.re, im - rv.im);
+  return ComplexNum(re_ - rv.re_, im_ - rv.im_);
 }
 
 ComplexNum operator-(const double lv, const ComplexNum& rv) {
-  return ComplexNum(lv - rv.re, -rv.im);
+  return ComplexNum(lv - rv.re_, -rv.im_);
 }
 
-ComplexNum ComplexNum::operator-() const { return ComplexNum(-re, -im); }
+ComplexNum ComplexNum::operator-() const { return ComplexNum(-re_, -im_); }
 
 ComplexNum ComplexNum::operator*(const ComplexNum& rv) const {
-  return ComplexNum(re * rv.re - im * rv.im, re * rv.im + im * rv.re);
+  return ComplexNum(re_ * rv.re_ - im_ * rv.im_, re_ * rv.im_ + im_ * rv.re_);
 }
 
 ComplexNum operator*(const double rv, const ComplexNum& lv) {
-  return ComplexNum(lv.re * rv, lv.im * rv);
+  return ComplexNum(lv.re_ * rv, lv.im_ * rv);
 }
 
 ComplexNum ComplexNum::operator/(const ComplexNum& rv) const {
   ComplexNum temp;
 
-  double r = rv.re * rv.re + rv.im * rv.im;
-  temp.re = (re * rv.re + im * rv.im) / r;
-  temp.im = (im * rv.re - re * rv.im) / r;
+  double r = rv.re_ * rv.re_ + rv.im_ * rv.im_;
+  temp.re_ = (re_ * rv.re_ + im_ * rv.im_) / r;
+  temp.im_ = (im_ * rv.re_ - re_ * rv.im_) / r;
 
   return temp;
 }
 
 bool ComplexNum::operator==(const ComplexNum& rv) const {
-  return re == rv.re && im == rv.im;
+  return re_ == rv.re_ && im_ == rv.im_;
 }
 
 bool ComplexNum::operator!=(const ComplexNum& rv) const {
@@ -66,8 +66,8 @@ bool ComplexNum::operator!=(const ComplexNum& rv) const {
 }
 
 ComplexNum& ComplexNum::operator=(ComplexNum& rv) {
-  re = rv.re;
-  im = rv.im;
+  re_ = rv.re_;
+  im_ = rv.im_;
   return (*this);
 }
 
@@ -91,34 +91,34 @@ std::istream& operator>>(std::istream& in, ComplexNum& rv) {
 ComplexNumPolar::ComplexNumPolar() {}
 
 ComplexNumPolar::ComplexNumPolar(const ComplexNumPolar& rv)
-    : phi(rv.phi), r(rv.r) {}
+    : phi_(rv.phi_), r_(rv.r_) {}
 
-ComplexNumPolar::ComplexNumPolar(double _r, double _phi) : phi(_phi), r(_r) {}
+ComplexNumPolar::ComplexNumPolar(double _r, double _phi) : phi_(_phi), r_(_r) {}
 
 ComplexNumPolar::ComplexNumPolar(double re) : ComplexNumPolar(ComplexNum(re)) {}
 
 ComplexNumPolar::ComplexNumPolar(const ComplexNum& rv)
-    : r(std::sqrt(rv.getRe() * rv.getRe() + rv.getIm() * rv.getIm())),
-      phi((rv.getRe() > 0 ? 0 : M_PI) + atan(rv.getIm() / rv.getRe())) {}
+    : r_(std::sqrt(rv.getRe() * rv.getRe() + rv.getIm() * rv.getIm())),
+      phi_((rv.getRe() > 0 ? 0 : M_PI) + atan(rv.getIm() / rv.getRe())) {}
 
-double ComplexNumPolar::getR() const { return r; }
+double ComplexNumPolar::getR() const { return r_; }
 
-void ComplexNumPolar::setR(double _r) { r = _r; }
+void ComplexNumPolar::setR(double _r) { r_ = _r; }
 
-double ComplexNumPolar::getPhi() const { return phi; }
+double ComplexNumPolar::getPhi() const { return phi_; }
 
-void ComplexNumPolar::setPhi(double _phi) { phi = _phi; }
+void ComplexNumPolar::setPhi(double _phi) { phi_ = _phi; }
 
 ComplexNum ComplexNumPolar::toComplexNum() const {
-  return ComplexNum(cos(phi) * r, sin(phi) * r);
+  return ComplexNum(cos(phi_) * r_, sin(phi_) * r_);
 }
 
 ComplexNumPolar ComplexNumPolar::sqrt() const {
-  return ComplexNumPolar(std::sqrt(r), phi / 2);
+  return ComplexNumPolar(std::sqrt(r_), phi_ / 2);
 }
 
 ComplexNumPolar ComplexNumPolar::pow(double a) const {
-  return ComplexNumPolar(std::pow(r, a), phi * a);
+  return ComplexNumPolar(std::pow(r_, a), phi_ * a);
 }
 
 ComplexNumPolar ComplexNumPolar::operator+(const ComplexNumPolar& rv) const {
@@ -143,32 +143,32 @@ ComplexNumPolar operator-(const double lv, const ComplexNumPolar& rv) {
 }
 
 ComplexNumPolar ComplexNumPolar::operator*(const ComplexNumPolar& rv) const {
-  return ComplexNumPolar(r * rv.r, phi + rv.phi);
+  return ComplexNumPolar(r_ * rv.r_, phi_ + rv.phi_);
 }
 
 ComplexNumPolar operator*(const double lv, const ComplexNumPolar& rv) {
-  return ComplexNumPolar(rv.r * lv, rv.phi);
+  return ComplexNumPolar(rv.r_ * lv, rv.phi_);
 }
 
 ComplexNumPolar ComplexNumPolar::operator/(const ComplexNumPolar& rv) const {
-  return ComplexNumPolar(r / rv.r, phi - rv.phi);
+  return ComplexNumPolar(r_ / rv.r_, phi_ - rv.phi_);
 }
 
 ComplexNumPolar& ComplexNumPolar::operator=(ComplexNumPolar& rv) {
-  r = rv.r;
-  phi = rv.phi;
+  r_ = rv.r_;
+  phi_ = rv.phi_;
   return (*this);
 }
 
 ComplexNumPolar& ComplexNumPolar::operator=(ComplexNum& rv) {
   ComplexNumPolar temp(rv);
-  r = temp.r;
-  phi = temp.phi;
+  r_ = temp.r_;
+  phi_ = temp.phi_;
   return (*this);
 }
 
 bool ComplexNumPolar::operator==(const ComplexNumPolar& rv) const {
-  return r == rv.r && phi == rv.phi;
+  return r_ == rv.r_ && phi_ == rv.phi_;
 }
 
 bool ComplexNumPolar::operator!=(const ComplexNumPolar& rv) const {
