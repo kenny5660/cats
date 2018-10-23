@@ -45,6 +45,16 @@ TEST_METHOD(SetRe_SetIm_test) {
   Assert::AreEqual(-1.0, c1.getPhi());
 }
 
+TEST_METHOD(pow_test) {
+  ComplexNumPolar c1(2, 10);
+  Assert::IsTrue((c1 * c1 * c1) == c1.pow(3));
+}
+
+TEST_METHOD(sqrt_test) {
+  ComplexNumPolar c1(4, 10);
+  Assert::IsTrue(ComplexNumPolar(2, 5) == c1.sqrt());
+}
+
 TEST_METHOD(toComplexNum_test) {
   ComplexNum a(12, -13);
   Assert::IsTrue(ComplexNumPolar(a).toComplexNum() == a);
@@ -122,7 +132,7 @@ TEST_METHOD(op_mul_test) {
   ComplexNumPolar c = a * b;
   ComplexNum a1 = a.toComplexNum();
   ComplexNum b1 = b.toComplexNum();
-  ComplexNum c1 = a1 * b1; 
+  ComplexNum c1 = a1 * b1;
   ComplexNum c2 = c.toComplexNum();
   c1.setRe(std::round(c1.getRe() * 100) / 100);
   c1.setIm(std::round(c1.getIm() * 100) / 100);
@@ -184,7 +194,7 @@ TEST_METHOD(op_assignment_test) {
 
   ComplexNum c4(12, 12);
   c3 = c4;
-  ComplexNum c3notPolar = c3.toComplexNum(); 
+  ComplexNum c3notPolar = c3.toComplexNum();
   c3notPolar.setRe(std::round(c3notPolar.getRe() * 100) / 100);
   c3notPolar.setIm(std::round(c3notPolar.getIm() * 100) / 100);
   Assert::IsTrue(c3notPolar == c4);
@@ -196,6 +206,17 @@ TEST_METHOD(stdcout_test) {
   str_stream << c1;
   Assert::AreEqual(right_val, str_stream.str());
 }
+
+TEST_METHOD(op_equality_test) {
+  ComplexNumPolar a(24, 42);
+  ComplexNumPolar b(24, 42);
+  ComplexNumPolar c(24, -42);
+  Assert::IsTrue(a == b);
+  Assert::IsFalse(a == c);
+  Assert::IsTrue(a != c);
+  Assert::IsFalse(a != b);
+}
+
 TEST_METHOD(stdcin_test) {
   double re_right = 12.2;
   double im_right = -13.5;

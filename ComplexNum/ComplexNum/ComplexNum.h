@@ -13,17 +13,17 @@ class ComplexNum {
   void setIm(double _im);
 
   //	ComplexNum operator+();
-  ComplexNum operator+(const ComplexNum& rv);
+  ComplexNum operator+(const ComplexNum& rv) const;
   friend ComplexNum operator+(const double, const ComplexNum& rv);
-  ComplexNum operator-(const ComplexNum& rv);
+  ComplexNum operator-(const ComplexNum& rv) const;
   friend ComplexNum operator-(const double lv, const ComplexNum& rv);
-  ComplexNum operator-();
-  ComplexNum operator*(const ComplexNum& rv);
+  ComplexNum operator-() const;
+  ComplexNum operator*(const ComplexNum& rv) const;
   friend ComplexNum operator*(const double, const ComplexNum& rv);
-  ComplexNum operator/(const ComplexNum& rv);
+  ComplexNum operator/(const ComplexNum& rv) const;
   ComplexNum& operator=(ComplexNum& rv);
-  bool operator==(const ComplexNum& rv);
-  bool operator!=(const ComplexNum& rv);
+  bool operator==(const ComplexNum& rv) const;
+  bool operator!=(const ComplexNum& rv) const;
   friend std::ostream& operator<<(std::ostream&, ComplexNum&);
   friend std::istream& operator>>(std::istream&, ComplexNum&);
 
@@ -46,18 +46,20 @@ class ComplexNumPolar {
   void setPhi(double _phi);
   ComplexNum toComplexNum() const;
 
+  ComplexNumPolar pow(double a) const;
+  ComplexNumPolar sqrt() const;
   ComplexNumPolar& operator=(ComplexNum& rv);
-  ComplexNumPolar operator+(const ComplexNumPolar& rv);
-  friend ComplexNumPolar operator+(const double lv, const ComplexNumPolar& rv); 
-  ComplexNumPolar operator-(const ComplexNumPolar& rv);
-  ComplexNumPolar operator-();
+  ComplexNumPolar operator+(const ComplexNumPolar& rv) const;
+  friend ComplexNumPolar operator+(const double lv, const ComplexNumPolar& rv);
+  ComplexNumPolar operator-(const ComplexNumPolar& rv) const;
+  ComplexNumPolar operator-() const;
   friend ComplexNumPolar operator-(const double lv, const ComplexNumPolar& rv);
-  ComplexNumPolar operator*(const ComplexNumPolar& rv);
+  ComplexNumPolar operator*(const ComplexNumPolar& rv) const;
   friend ComplexNumPolar operator*(const double lv, const ComplexNumPolar& rv);
-  ComplexNumPolar operator/(const ComplexNumPolar& rv);
+  ComplexNumPolar operator/(const ComplexNumPolar& rv) const;
   ComplexNumPolar& operator=(ComplexNumPolar& rv);
-  bool operator==(const ComplexNumPolar& rv);
-  bool operator!=(const ComplexNumPolar& rv);
+  bool operator==(const ComplexNumPolar& rv) const;
+  bool operator!=(const ComplexNumPolar& rv) const;
   friend std::ostream& operator<<(std::ostream&, ComplexNumPolar&);
   friend std::istream& operator>>(std::istream&, ComplexNumPolar&);
 

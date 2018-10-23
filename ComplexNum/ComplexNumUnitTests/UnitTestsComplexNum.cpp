@@ -135,8 +135,7 @@ TEST_METHOD(op_div_test) {
 TEST_METHOD(op_div_double_test) {
   ComplexNum a(24, 42);
   ComplexNum right_val(9.6, 16.8);
-  ComplexNum c = a / 2.5;            w
-
+  ComplexNum c = a / 2.5;
   Assert::IsTrue(right_val == c);
 }
 
