@@ -29,7 +29,7 @@ ComplexNumPolar c4(a);
 c4.setR(std::round(c4.getR() * 100) / 100);
 c4.setPhi(std::round(c4.getPhi() * 100) / 100);
 Assert::IsTrue(c4 == ComplexNumPolar(4.24, 0.79));
-}  // namespace UnitTestsComplexNumPolar
+}
 
 TEST_METHOD(GetR_GetPhi_test) {
   ComplexNum c1(12.2, -2.5);

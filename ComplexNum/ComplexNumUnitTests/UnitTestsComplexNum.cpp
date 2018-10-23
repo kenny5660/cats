@@ -23,7 +23,7 @@ im = 0;
 ComplexNum c2(re);
 Assert::AreEqual(re, c2.getRe());
 Assert::AreEqual(im, c2.getIm());
-}  // namespace ComplexNumUnitTests
+} 
 
 TEST_METHOD(GetRe_GetIm_test) {
   double re = 12.2;
