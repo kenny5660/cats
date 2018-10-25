@@ -12,6 +12,9 @@ class ComplexNum {
   double getIm() const;
   void setIm(double _im);
 
+  double abs() const;
+  double arg() const;
+
   //	ComplexNum operator+();
   ComplexNum operator+(const ComplexNum& rv) const;
   friend ComplexNum operator+(const double, const ComplexNum& rv);
@@ -45,6 +48,8 @@ class ComplexNumPolar {
   double getPhi() const;
   void setPhi(double _phi);
   ComplexNum toComplexNum() const;
+  double abs() const;
+  double arg() const;
 
   ComplexNumPolar pow(double a) const;
   ComplexNumPolar sqrt() const;
@@ -57,7 +62,7 @@ class ComplexNumPolar {
   ComplexNumPolar operator*(const ComplexNumPolar& rv) const;
   friend ComplexNumPolar operator*(const double lv, const ComplexNumPolar& rv);
   ComplexNumPolar operator/(const ComplexNumPolar& rv) const;
-  ComplexNumPolar& operator=(ComplexNumPolar& rv);
+  ComplexNumPolar& operator=(const ComplexNumPolar& rv);
   bool operator==(const ComplexNumPolar& rv) const;
   bool operator!=(const ComplexNumPolar& rv) const;
   friend std::ostream& operator<<(std::ostream&, ComplexNumPolar&);

@@ -6,7 +6,8 @@ namespace UnitTestsComplexNumPolar {
 TEST_CLASS(ComplexNumPolarTest){
   public :
 
-      TEST_METHOD(Constructors_test){double r = 12.2;
+TEST_METHOD(Constructors_test) {
+double r = 12.2;
 double phi = 3.14;
 ComplexNumPolar c1(r, phi);
 Assert::AreEqual(r, c1.getR());
@@ -43,6 +44,16 @@ TEST_METHOD(SetRe_SetIm_test) {
   c1.setPhi(-1);
   Assert::AreEqual(13.5, c1.getR());
   Assert::AreEqual(-1.0, c1.getPhi());
+}
+
+TEST_METHOD(abs) {
+  ComplexNumPolar a(12, -13);
+  Assert::AreEqual(a.getR(), a.abs());
+}
+
+TEST_METHOD(arg) {
+  ComplexNumPolar c(13,-13);
+  Assert::AreEqual(c.getPhi(), c.arg());
 }
 
 TEST_METHOD(pow_test) {
@@ -199,6 +210,7 @@ TEST_METHOD(op_assignment_test) {
   c3notPolar.setIm(std::round(c3notPolar.getIm() * 100) / 100);
   Assert::IsTrue(c3notPolar == c4);
 }
+
 TEST_METHOD(stdcout_test) {
   std::string right_val = "12.2(cos(-773.493)+isin(-773.493))";
   ComplexNumPolar c1(12.2, -13.5);

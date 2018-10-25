@@ -43,6 +43,18 @@ TEST_METHOD(SetRe_SetIm_test) {
   Assert::AreEqual(im, c1.getIm());
 }
 
+TEST_METHOD(abs) {
+  ComplexNum a(12, -13);
+  ComplexNumPolar c(a);
+  Assert::AreEqual(c.getR(), a.abs());
+}
+
+TEST_METHOD(arg) {
+  ComplexNum a(12, -13);
+  ComplexNumPolar c(a);
+  Assert::AreEqual(c.getPhi(), a.arg());
+}
+
 TEST_METHOD(op_pluse_test) {
   ComplexNum a(12, -13);
   ComplexNum b(10, 1);
@@ -91,6 +103,7 @@ TEST_METHOD(op_sub_double_lv_test) {
   ComplexNum c = 11.5-a;
   Assert::IsTrue(right_val == c);
 }
+
 TEST_METHOD(op_sub_double_unar_test) {
   ComplexNum a(12, -13);
   ComplexNum right_val(-0.5, 13);
@@ -157,7 +170,7 @@ TEST_METHOD(op_assignment_test) {
   Assert::AreEqual(re, c1.getRe());
   Assert::AreEqual(im, c1.getIm());
 
-  ComplexNum c3(10,10);
+  ComplexNum c3(10, 10);
   c3 = c1;
   Assert::AreEqual(re, c3.getRe());
   Assert::AreEqual(im, c3.getIm());
@@ -166,6 +179,7 @@ TEST_METHOD(op_assignment_test) {
   Assert::AreEqual(im2, c3.getIm());
   Assert::AreEqual(im, c1.getIm());
 }
+
 TEST_METHOD(stdcout_minus_i_test) {
   std::string right_val = "12.2-13.5i";
   ComplexNum c1(12.2, -13.5);
