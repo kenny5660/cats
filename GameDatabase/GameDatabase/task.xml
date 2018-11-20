@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATS version="1.11">
+<Problem title="GameDatabase" lang="ru" tlimit="1" mlimit="4000M"
+  author="" inputFile="*STDIN" outputFile="*STDOUT"
+  saveInputPrefix="50B" saveOutputPrefix="50B" saveAnswerPrefix="50B">
+<ProblemStatement>
+ <p>Необходимо реализовать класс <code>GameDatabase</code> cо следующим интерфейсом:</p>
+   <pre>
+     <code>
+        class GameDatabase
+        {
+        public:
+            GameDatabase() = default;
+
+            /// вставляет в базу объект с именем [name] и позицией [x, y]
+            /// если объект с таким id в базе уже есть, заменяет его новым
+            void Insert(ObjectId id, string name, size_t x, size_t y)
+
+            /// удаляет элемент по id
+            /// если такого элемента нет, ничего не делает
+            void Remove(ObjectId id);
+
+            /// возвращает пару из объекта и флага успеха
+            /// если объект с [id] в базе есть возвращает его первым элементом пары
+            /// второй элемент при этом = true
+            /// если объекта в базе нет, второй элемент = false, первый элемент не важен
+            <![CDATA[pair&lt;GameObject, bool&gt; DataById(ObjectId id) const;]]>
+
+            /// возвращает вектор объектов c именем [name]
+            /// сортировка по убыванию id
+            <![CDATA[vector&lt;GameObject&gt; DataByName(string name) const;]]>
+
+            /// возвращает вектор объектов, находящихся в позиции [x, y]
+            /// сортировка по убыванию id
+            <![CDATA[vector&lt;GameObject&gt; DataByPosition(size_t x, size_t y) const;]]>
+
+            /// возвращает вектор всех объектов из базы
+            /// сортировка по убыванию id
+            <![CDATA[vector&lt;GameObject&gt; Data() const;]]>
+        };
+      </code>
+   </pre>
+   <p>Код для <code>GameObject</code> и <code>ObjectId</code> указан ниже.</p>
+   <pre>
+     <code>
+        using ObjectId = unsigned long long int;
+
+        struct GameObject
+        {
+            ObjectId id;
+            string name;
+            size_t x;
+            size_t y;
+        };
+      </code>
+    </pre>
+    <p>Рекомендуется использовать структуры данных: <a href="https://en.cppreference.com/w/cpp/container/unordered_map"><code>std::unordered_map</code></a>, <a href="https://en.cppreference.com/w/cpp/container/map"><code>std::map</code></a>, <a href="https://en.cppreference.com/w/cpp/container/set"><code>std::set</code></a></p> 
+    <p>Отдельная <a href="https://en.cppreference.com/w/cpp/algorithm/sort">сортировка</a> не потребуется если использовать <a href="https://en.cppreference.com/w/cpp/named_req/Compare">компаратор</a> для упорядоченных контейнеров (<code>std::set</code>, <code>std::map</code>)</p>
+    <p>Пример организации данных с компаратором:</p>
+      <pre>
+          <code>
+          <![CDATA[bool operator&gt;(const GameObject& a, const GameObject& b) {]]>
+              <![CDATA[return a.id &gt; b.id;]]>
+          }
+
+          <![CDATA[template&lt;class Tp, template&lt;class&gt; class Compare>]]>
+          class DereferenceCompare {
+                <![CDATA[Compare&lt;Tp&gt; comp;]]>
+            
+          public:
+              bool operator()(const Tp* const a, const Tp* const b) const {
+                  return comp(*a, *b);
+              }
+          };
+          
+          /// быстрый доступ по id
+          <![CDATA[std::map&lt;ObjectId, GameObject, std::greater&ltObjectId&gt;&gt;]]>
+          
+          /// быстрый доступ по позиции
+          <![CDATA[std::map&lt;std::pair&lt;size_t, size_t&gt;, std::set&lt;GameObject*, DereferenceCompare&lt;GameObject, std::greater&gt;&gt;&gt;]]>
+          
+          /// быстрый доступ по имени
+          <![CDATA[std::unordered_map&lt;string, std::set&lt;GameObject*, DereferenceCompare&lt;GameObject, std::greater&gt;&gt;&gt;]]>
+          </code>
+      </pre>
+    </ProblemStatement>
+  <!--
+<InputFormat>
+  <p>
+  </p>
+</InputFormat>
+-->
+<OutputFormat>
+  <p>
+     Файл с решением должен содержать только реализацию класса <code>GameDatabase</code> без функции <code>main</code>.
+  </p>
+</OutputFormat>
+
+<Linter name="cpplint" stage="before" src="cpplint.py"/>
+
+<Import type="checker" guid="std.strs"/>
+<Module type="solution" src="main.cpp" main="game_database.h" de_code="107"></Module>
+
+<Test rank="1"><In src="1.in"/><Out src="1.ans"/></Test>>
+<Test rank="2"><In src="2.in"/><Out src="2.ans"/></Test>>
+<Test rank="3"><In src="3.in"/><Out src="3.ans"/></Test>>
+<Test rank="4"><In src="4.in"/><Out src="4.ans"/></Test>>
+<Test rank="5"><In src="5.in"/><Out src="5.ans"/></Test>>
+<Test rank="6"><In src="6.in"/><Out src="6.ans"/></Test>>
+<Test rank="7"><In src="7.in"/><Out src="7.ans"/></Test>>
+
+</Problem>
+</CATS>

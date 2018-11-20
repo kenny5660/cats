@@ -57,3 +57,6 @@
 *.out
 *.lastcodeanalysissucceeded
 *.dll
+/GameDatabase/GameDatabase/Debug
+*.ans
+*.ipch
