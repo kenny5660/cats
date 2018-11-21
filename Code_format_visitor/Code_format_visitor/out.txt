@@ -1,0 +1,18 @@
+class MyClass {
+  public:
+    void Print();
+    void SetNum(int n);
+
+  protected:
+    OtherClass SomeMethod(int a, char b, MyClass c);
+    int x_;
+
+  private:
+    void SetNumImpl(int num);
+    class Iterator {
+      public:
+        void Next();
+        bool Stopped();
+        int* Dereference();
+    };
+};

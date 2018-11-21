@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATS version="1.11">
+<Problem title="Code format visitor" lang="ru" tlimit="1" mlimit="4000M"
+  author="" inputFile="*STDIN" outputFile="*STDOUT"
+  saveInputPrefix="50B" saveOutputPrefix="50B" saveAnswerPrefix="50B">
+
+<ProblemStatement>
+  <p>
+      Вам заданны классы узлов синтаксического дерева программы, необходимые для описания объявления класса, методов класса и полей класса.
+  </p>
+  <p>
+      <pre>
+          <code>
+class ClassDeclarationNode;
+class VarDeclarationNode;
+class MethodDeclarationNode;
+class BaseNode;
+
+class BaseVisitor {
+  public:
+    virtual void Visit(const BaseNode* node) = 0;
+    virtual void Visit(const ClassDeclarationNode* node) = 0;
+    virtual void Visit(const VarDeclarationNode* node) = 0;
+    virtual void Visit(const MethodDeclarationNode* node) = 0;
+};
+
+class BaseNode {
+  public:
+    virtual void Visit(BaseVisitor* visitor) const = 0;
+};
+
+class ClassDeclarationNode: public BaseNode {
+  public:
+    const std::string&amp; ClassName() const;
+    <![CDATA[const std::vector&lt;BaseNode*&gt;&]]> PublicFields() const;
+    <![CDATA[const std::vector&lt;BaseNode*&gt;&]]> ProtectedFields() const;
+    <![CDATA[const std::vector&lt;BaseNode*&gt;&]]> PrivateFields() const;
+    void Visit(BaseVisitor* visitor) const override {
+        visitor->Visit(this);
+    }
+};
+
+class VarDeclarationNode: public BaseNode {
+  public:
+    const std::string&amp; VarName() const;
+    const std::string&amp; TypeName() const;
+    void Visit(BaseVisitor* visitor) const override {
+        visitor->Visit(this);
+    }
+};
+
+class MethodDeclarationNode: public BaseNode {
+  public:
+    const std::string&amp; MethodName() const;
+    const std::string&amp; ReturnTypeName() const;
+    <![CDATA[const std::vector&lt;BaseNode*&gt;&]]> Arguments() const;
+    void Visit(BaseVisitor* visitor) const override {
+        visitor->Visit(this);
+    }
+};
+          </code>
+      </pre>
+  </p>
+  Требуется реализовать класс <code>FormatVisitor</code>, который будет позволять получать отформатированное представление программы в виде строки,
+  в соответствии с синтаксисом языка <code>C++</code> и Google Style Guide.
+  <p>
+      <pre>
+          <code>
+class FormatVisitor: public BaseVisitor {
+  public:
+    void Visit(const BaseNode* node) override {
+        node->Visit(this);
+    }
+
+    void Visit(const ClassDeclarationNode* node) override;
+    void Visit(const VarDeclarationNode* node) override;
+    void Visit(const MethodDeclarationNode* node) override;
+
+    <![CDATA[const std::vector&lt;std::string&gt;&]]> GetFormattedCode() const;
+};
+          </code>
+      </pre>
+  </p>
+</ProblemStatement>
+
+<InputFormat>
+  <p>
+  </p>
+</InputFormat>
+
+<OutputFormat>
+  <p>
+     Файл с решением должен содержать только реализацию описанного
+     класса, без функции $main$.
+  </p>
+</OutputFormat>
+
+<Linter name="cpplint" stage="before" src="cpplint.py"/>
+
+<Import type="checker" guid="std.nums"/>
+
+<Module type="solution" src="main.cpp" main="format_visitor.h" de_code="107"></Module>
+
+<Test rank="1"><In src="01.in"/><Out src="01.out"/></Test>>
+
+</Problem>
+</CATS>
