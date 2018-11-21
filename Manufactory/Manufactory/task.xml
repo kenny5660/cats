@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATS version="1.11">
+<Problem title="Фабрика" lang="ru" tlimit="1" mlimit="4096M"
+  author="" inputFile="*STDIN" outputFile="*STDOUT"
+  saveInputPrefix="50B" saveOutputPrefix="50B" saveAnswerPrefix="50B">
+
+<ProblemStatement>
+  <p>Реализуйте паттерн проектирования "Фабрика".
+  </p>
+  <p>Фабрика может создавать произвольных потомков базового класса. В нашем случае
+  базовым классом будет <code>Object</code>, а сама фабрика -- классом <code>Factory</code>.
+  Определение класса <code>Object</code> должно быть в точности таким:
+  </p>
+  <p>
+    <pre>
+    <code>
+class Object {
+  public:
+    virtual std::string ToString() const = 0;
+};
+    </code>
+    </pre>
+  </p>
+  <p>
+      Метод <code>ToString</code> является абстрактным. Это означает, что все потомки
+      <code>Object</code> обязаны перегрузить этот метод.
+  </p>
+  <p>
+      Ваша фабрика должна уметь понимать, потомка какого типа от неё хотят получить
+      в данный момент. Это означает, что у каждого потомка должен быть некоторый идентификатор.
+      В этом задании будем использовать строковые идентификаторы.
+  </p>
+  <p>Фабрика поддерживает всего две операции. Одна из них:</p>
+  <p>
+      <code>Object* Create(const std::string&amp; class_id)</code> -- этот метод
+      класса <code>Factory</code>
+      получает на вход идентификатор класса, создает экземпляр этого класса
+      и возвращает указатель на созданный экземпляр.
+  </p>
+  <p>
+      Сразу после конструирования ваша фабрика должна уметь создавать потомков с
+      идентификаторами "apple!", "list" и "yet another identifier". В этом задании
+      все потомки <code>Object</code> при вызове <code>ToString</code> должны
+      возвращать свои идентификаторы.
+  </p>
+  <p>
+    Например, код
+    <pre>
+    <code>
+Factory factory;
+Object* apple_instance_ptr = factory.Create("apple!");
+cout &lt;&lt; apple_instance_ptr->ToString() &lt;&lt; endl;
+    </code>
+    </pre>
+    должен печатать "apple!".
+  </p>
+  <p>
+      Чтобы не было скучно, ваша фабрика должна поддерживать создание <i>любых</i> потомков
+      <code>Object</code>. Для этого существует операция регистрации:
+  </p>
+  <p>
+      <code>void Register(const std::string&amp; class_id, Object*(*instance_creator)())</code> -- 
+      этот метод связывает идентификатор класса <code>class_id</code> 
+      с порождающей функцией <code>instance_creator</code>.
+  </p>
+  <p>
+      Параметр <code>instance_creator</code> -- это указатель на функцию, которая
+      возвращает указатель на наследника <code>Object</code>.
+  </p>
+  <p>
+    Пример использования:
+    <pre>
+    <code>
+Factory factory;
+factory.Register("smth", new_smth);
+Object* smth_instance_ptr = factory.Create("smth");
+cout &lt;&lt; smth_instance_ptr->ToString() &lt;&lt; endl;
+    </code>
+    </pre>
+    Где <code>new_smth</code> это функция, объявленная как <code>Object* new_smth();</code>
+  </p>
+</ProblemStatement>
+
+<OutputFormat>
+  <p>
+     Файл с решением должен содержать только реализацию классов Factory и Object
+     и вспомогательных классов, если необходимы.
+  </p>
+</OutputFormat>
+
+<Linter name="cpplint" stage="before" src="cpplint.py" memoryLimit="500M"/>
+<Import type="checker" guid="std.strs"/>
+<Module type="solution" src="main.cpp" main="factory.h" de_code="107"/>
+
+<Test rank="1"><In>apple!</In><Out>apple!</Out></Test>
+<Test rank="2"><In>list</In><Out>list</Out></Test>
+<Test rank="3"><In>yet another identifier</In><Out>yet another identifier</Out></Test>
+<Test rank="4"><In>sdsa</In><Out>sdsa</Out></Test>
+<Test rank="5"><In>dd333</In><Out>dd333</Out></Test>
+<Test rank="6"><In>dd33232</In><Out>dd33232</Out></Test>
+<Test rank="7"><In>ddddqere</In><Out>ddddqere</Out></Test>
+<Test rank="8"><In>ffvgfgc</In><Out>ffvgfgc</Out></Test>
+<Test rank="9"><In>fgfgeee</In><Out>fgfgeee</Out></Test>
+<Test rank="10"><In>eeeeewerwer</In><Out>eeeeewerwer</Out></Test>
+<Test rank="11"><In>wewe</In><Out>wewe</Out></Test>
+<Test rank="12"><In>dddddddddddd</In><Out>dddddddddddd</Out></Test>
+<Test rank="13"><In>dsdszxczxc</In><Out>dsdszxczxc</Out></Test>
+<Test rank="14"><In>bbbbvvvv</In><Out>bbbbvvvv</Out></Test>
+
+</Problem>
+</CATS>
