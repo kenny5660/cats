@@ -1,8 +1,12 @@
-#include <map>
-#include <set>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+
+#include <type_traits>
+
+#include <map>
+#include <set>
+
+
 
 template <typename T>
 struct to_void {
@@ -74,14 +78,18 @@ struct is_unordered_container<std::unordered_set<T, Hash, Pred, Alloc>>
 template <class C1, class C2>
 bool MergeAssociative(
     C1* c1, const C2& c2,
-    typename std::enable_if<is_associative_container<C1>::value &&
-                                is_associative_container<C2>::value,
+    typename std::enable_if<is_map_container<C1>::value &&
+                                is_map_container<C2>::value,
                             int>::type* = 0,
     typename std::enable_if<
         (is_multi_container<C1>::value ||
          (!is_multi_container<C1>::value && !is_multi_container<C2>::value)) &&
-                                std::is_same<typename C1::value_type,
-                                             typename C2::value_type>::value,
+            std::is_same<
+                typename std::remove_cv<typename C1::key_type>::type,
+                typename std::remove_cv<typename C2::key_type>::type>::value &&
+            std::is_same<
+                typename std::remove_cv<typename C1::mapped_type>::type,
+                typename std::remove_cv<typename C2::mapped_type>::type>::value,
         int>::type* = 0
 
 ) {
@@ -92,14 +100,40 @@ bool MergeAssociative(
 template <class C1, class C2>
 bool MergeAssociative(
     C1* c1, const C2& c2,
-    typename std::enable_if<is_associative_container<C1>::value &&
-                              is_associative_container<C2>::value &&
-                                !((is_multi_container<C1>::value ||
-                                   (!is_multi_container<C1>::value &&
-                                    !is_multi_container<C2>::value)) &&
-                                  std::is_same<typename C1::value_type,
-                                           typename C2::value_type>::value),
-                            char>::type* = 0
+    typename std::enable_if<(is_associative_container<C1>::value &&
+                             !is_map_container<C1>::value) &&
+                                (is_associative_container<C2>::value &&
+                                 !is_map_container<C2>::value),
+                            int>::type* = 0,
+    typename std::enable_if<
+        (is_multi_container<C1>::value ||
+         (!is_multi_container<C1>::value && !is_multi_container<C2>::value)) &&
+            std::is_same<
+                typename std::remove_cv<typename C1::key_type>::type,
+                typename std::remove_cv<typename C2::key_type>::type>::value,
+        int>::type* = 0
+
+) {
+  c1->insert(c2.begin(), c2.end());
+  return false;
+}
+
+template <class C1, class C2>
+bool MergeAssociative(
+    C1* c1, const C2& c2,
+    typename std::enable_if<is_map_container<C1>::value &&
+                                is_map_container<C2>::value,
+                            int>::type* = 0,
+    typename std::enable_if<
+        !((is_multi_container<C1>::value || (!is_multi_container<C1>::value &&
+                                             !is_multi_container<C2>::value)) &&
+          std::is_same<
+              typename std::remove_cv<typename C1::key_type>::type,
+              typename std::remove_cv<typename C2::key_type>::type>::value &&
+          std::is_same<
+              typename std::remove_cv<typename C1::mapped_type>::type,
+              typename std::remove_cv<typename C2::mapped_type>::type>::value),
+        int>::type* = 0
 
 ) {
   return true;
@@ -108,11 +142,45 @@ bool MergeAssociative(
 template <class C1, class C2>
 bool MergeAssociative(
     C1* c1, const C2& c2,
-    typename std::enable_if<!(is_associative_container<C1>::value &&
-                              is_associative_container<C2>::value)
-                              ,
-                            bool>::type* = 0
+    typename std::enable_if<(is_associative_container<C1>::value &&
+                             !is_map_container<C1>::value) &&
+                                (is_associative_container<C2>::value &&
+                                 !is_map_container<C2>::value),
+                            int>::type* = 0,
+    typename std::enable_if<
+        !((is_multi_container<C1>::value || (!is_multi_container<C1>::value &&
+                                             !is_multi_container<C2>::value)) &&
+          std::is_same<
+              typename std::remove_cv<typename C1::key_type>::type,
+              typename std::remove_cv<typename C2::key_type>::type>::value),
+        int>::type* = 0
 
 ) {
   return true;
 }
+
+template <class C1, class C2>
+bool MergeAssociative(
+    C1* c1, const C2& c2,
+    typename std::enable_if<is_map_container<C1>::value &&
+                                    (is_associative_container<C2>::value &&
+                                     !is_map_container<C2>::value) ||
+                                is_map_container<C2>::value &&
+                                    (is_associative_container<C1>::value &&
+                                     !is_map_container<C1>::value),
+                            bool>::type** = 0
+
+) {
+  return true;
+}
+//
+//template <class C1, class C2>
+//bool MergeAssociative(
+//    C1* c1, const C2& c2,
+//    typename std::enable_if<!(is_associative_container<C1>::value &&
+//                              is_associative_container<C2>::value),
+//                            bool>::type* = 0
+//
+//) {
+//  return true;
+//}

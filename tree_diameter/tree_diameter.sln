@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tree_diameter", "tree_diameter\tree_diameter.vcxproj", "{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Debug|x64.ActiveCfg = Debug|x64
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Debug|x64.Build.0 = Debug|x64
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Debug|x86.ActiveCfg = Debug|Win32
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Debug|x86.Build.0 = Debug|Win32
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Release|x64.ActiveCfg = Release|x64
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Release|x64.Build.0 = Release|x64
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Release|x86.ActiveCfg = Release|Win32
+		{5970D9D0-A023-4EA5-A0DA-89F88D797AFA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9D8FE8D-6A15-46B1-99AA-E2D9DE6F1B16}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,10 @@
+String size = 149540625
+one_thread_result= 0.41782
+Threads 1 time 0.15198 time / time_one_thread = 0.363746 norm = 1
+Threads 2 time 0.0807224 time / time_one_thread = 0.193199 norm = 1
+Threads 3 time 0.0509433 time / time_one_thread = 0.121926 norm = 1
+Threads 4 time 0.0456821 time / time_one_thread = 0.109334 norm = 1
+Threads 5 time 0.0432396 time / time_one_thread = 0.103489 norm = 1
+Threads 6 time 0.0418744 time / time_one_thread = 0.100221 norm = 1
+Threads 7 time 0.0366401 time / time_one_thread = 0.0876934 norm = 1
+Threads 8 time 0.0546679 time / time_one_thread = 0.130841 norm = 1
