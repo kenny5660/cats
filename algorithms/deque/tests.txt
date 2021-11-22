@@ -1,0 +1,12 @@
+push_front 1
+push_front 2
+push_front 3
+push_front 4
+front
+pop_back
+pop_back
+back
+push_front 5
+push_front 6
+front
+exit
