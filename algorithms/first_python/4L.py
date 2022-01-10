@@ -1,0 +1,1 @@
+print(" ".join(map(str,list(map(lambda x: x*x, filter(lambda x: x > 0, map(int, input().split()))))[::-1])))

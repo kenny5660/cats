@@ -1,17 +1,4 @@
-
-4
-aaaA
-aaAa
-aaAA
-aAaa
-aAaA
-aAAa
-aAAA
-Aaaa
-AaaA
-AaAa
-AaAA
-AAaa
-AAaa1
-aaa1
-aaa11
+3
+M8103	Sidorov Sidor
+M8888	Petrov Petr
+M8103	Ivanov Ivan
