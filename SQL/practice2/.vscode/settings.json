@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "2A_sales",
+            "database": "${workspaceFolder:practice2}/2A_sales.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
