@@ -1,8 +1,6 @@
 import tqdm
 import numpy as np
 
-def mutation_f(m,x):
-    return  x/m
 def mix(a, b, mutation_chance=0.01):
     c = np.where(np.random.randint(0, 2, a.shape[0]), a, b)
     if np.random.randint(2):
@@ -50,16 +48,16 @@ with open('input.txt', 'r') as fin:
     coeff = np.array([list(map(float, fin.readline().split())) for j in range(workers)])
 
 
-started_gens = 20
-generations = 1000
-child_count = 5
+started_gens = 15
+generations = 600
+child_count = 20
 mutation_min_chance = 0.001
-mutation_chance_function = lambda x: max(4/((x+1)**1),mutation_min_chance)
+mutation_chance_function = lambda x: max(5/((x+1)**1),mutation_min_chance)
 
 gen = np.random.randint(1, workers+1, (started_gens, tasks))
 bests = list()
 scores = list()
-for i in range(10):
+for i in range(30):
     if len(bests) > 0 :
         gen[0] = bests[np.argmax(scores)]
         res = gen_alg(gen,generations,child_count,mutation_chance_function)
@@ -67,8 +65,8 @@ for i in range(10):
         res = gen_alg(gen,generations,child_count,mutation_chance_function)
     bests.append(res[0])
     scores.append(res[1])
-    mutation_chance_function = lambda x: max(0.5/((x+1)**1),mutation_min_chance)
-    child_count = 5
+    mutation_chance_function = lambda x: max(3/((x+1)**1.2),mutation_min_chance)
+    child_count = 15
 print(*scores)
 print(scores[np.argmax(scores)])
-print(*bests[np.argmax(scores)], file=open('output.txt', 'w'))
+print(*bests[np.argmax(scores)], file=open('output-'+str(scores[np.argmax(scores)])+'.txt', 'w'))
